@@ -25,6 +25,7 @@ const QuestionForm = ({ question, onSubmit, onCancel }: QuestionFormProps) => {
     solution: "",
     timeComplexity: "",
     spaceComplexity: "",
+    notes: "",
   });
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const QuestionForm = ({ question, onSubmit, onCancel }: QuestionFormProps) => {
         solution: question.solution || "",
         timeComplexity: question.timeComplexity || "",
         spaceComplexity: question.spaceComplexity || "",
+        notes: question.notes || "",
       });
     }
   }, [question]);
@@ -61,6 +63,7 @@ const QuestionForm = ({ question, onSubmit, onCancel }: QuestionFormProps) => {
       solution: formData.solution.trim() || undefined,
       timeComplexity: formData.timeComplexity.trim() || undefined,
       spaceComplexity: formData.spaceComplexity.trim() || undefined,
+      notes: formData.notes.trim() || undefined,
     };
 
     onSubmit(questionData);
@@ -165,6 +168,17 @@ const QuestionForm = ({ question, onSubmit, onCancel }: QuestionFormProps) => {
                 onChange={(e) => handleChange("solution", e.target.value)}
                 placeholder="Write your solution code or approach here..."
                 className="bg-slate-700/50 border-slate-600 text-white placeholder-slate-400 min-h-32 font-mono text-sm"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="notes" className="text-slate-300">Logic & Notes (Optional)</Label>
+              <Textarea
+                id="notes"
+                value={formData.notes}
+                onChange={(e) => handleChange("notes", e.target.value)}
+                placeholder="Add your logic explanation, approach, insights, or additional notes..."
+                className="bg-slate-700/50 border-slate-600 text-white placeholder-slate-400 min-h-24"
               />
             </div>
 

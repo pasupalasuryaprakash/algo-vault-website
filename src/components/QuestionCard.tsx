@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Edit, Trash2, Clock, Database, Tag, ChevronDown, ChevronUp, Code2, Calendar } from "lucide-react";
+import { Edit, Trash2, Clock, Database, Tag, ChevronDown, ChevronUp, Code2, Calendar, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -93,7 +93,7 @@ const QuestionCard = ({ question, onEdit, onDelete }: QuestionCardProps) => {
           </div>
         )}
 
-        {(question.timeComplexity || question.spaceComplexity || question.solution) && (
+        {(question.timeComplexity || question.spaceComplexity || question.solution || question.notes) && (
           <>
             <Separator className="my-5 bg-slate-700/50" />
             
@@ -155,6 +155,20 @@ const QuestionCard = ({ question, onEdit, onDelete }: QuestionCardProps) => {
                       <pre className="text-sm text-slate-300 whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">
                         {question.solution}
                       </pre>
+                    </div>
+                  </div>
+                )}
+
+                {question.notes && (
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                      <FileText className="h-4 w-4" />
+                      Logic & Notes
+                    </h4>
+                    <div className="bg-slate-800/30 rounded-xl p-4 border border-slate-700/50">
+                      <p className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed">
+                        {question.notes}
+                      </p>
                     </div>
                   </div>
                 )}

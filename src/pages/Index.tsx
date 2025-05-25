@@ -19,6 +19,7 @@ export interface DSAQuestion {
   solution?: string;
   timeComplexity?: string;
   spaceComplexity?: string;
+  notes?: string;
   createdAt: Date;
 }
 
