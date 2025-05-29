@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import QuestionForm from "@/components/QuestionForm";
 import QuestionCard from "@/components/QuestionCard";
 import { useToast } from "@/hooks/use-toast";
+import { initialDSAQuestions } from "@/data/dsaQuestions";
 
 export interface DSAQuestion {
   id: string;
@@ -32,18 +33,34 @@ const Index = () => {
   const [topicFilter, setTopicFilter] = useState<string>("all");
   const { toast } = useToast();
 
-  // Load questions from localStorage on component mount
+  // Load questions from localStorage on component mount, or use initial data
   useEffect(() => {
     const savedQuestions = localStorage.getItem("dsaQuestions");
     if (savedQuestions) {
       const parsed = JSON.parse(savedQuestions);
       setQuestions(parsed.map((q: any) => ({ ...q, createdAt: new Date(q.createdAt) })));
+    } else {
+      // Load initial 100 DSA questions if no saved data
+      const questionsWithIds = initialDSAQuestions.map((q, index) => ({
+        ...q,
+        id: (Date.now() + index).toString(),
+        createdAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000) // Random dates within last 30 days
+      }));
+      setQuestions(questionsWithIds);
+      localStorage.setItem("dsaQuestions", JSON.stringify(questionsWithIds));
+      
+      toast({
+        title: "DSA Vault Initialized",
+        description: "Loaded 100 curated DSA questions to get you started!",
+      });
     }
-  }, []);
+  }, [toast]);
 
   // Save questions to localStorage whenever questions array changes
   useEffect(() => {
-    localStorage.setItem("dsaQuestions", JSON.stringify(questions));
+    if (questions.length > 0) {
+      localStorage.setItem("dsaQuestions", JSON.stringify(questions));
+    }
   }, [questions]);
 
   const addQuestion = (questionData: Omit<DSAQuestion, "id" | "createdAt">) => {
